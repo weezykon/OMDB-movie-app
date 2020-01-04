@@ -13,29 +13,36 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
+    defaultSearch();
+  }, []);
+
+  const defaultSearch = () => {
     axios.get(MOVIE_API_URL)
       .then(res => {
         const response = res.data;
         setMovies(response.Search);
         setLoading(false);
       })
-  }, []);
+  }
 
   const search = searchValue => {
     setLoading(true);
     setErrorMessage(null);
-
-    axios.get(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
-      .then(res => {
-        const jsonResponse = res.data;
-        if (jsonResponse.Response === "True") {
-          setMovies(jsonResponse.Search);
-          setLoading(false);
-        } else {
-          setErrorMessage(jsonResponse.Error);
-          setLoading(false);
-        }
-      })
+    if (searchValue) {
+      axios.get(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
+        .then(res => {
+          const jsonResponse = res.data;
+          if (jsonResponse.Response === "True") {
+            setMovies(jsonResponse.Search);
+            setLoading(false);
+          } else {
+            setErrorMessage(jsonResponse.Error);
+            setLoading(false);
+          }
+        })
+    } else {
+      defaultSearch();
+    }
   };
 
 

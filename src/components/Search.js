@@ -5,17 +5,15 @@ const Search = (props) => {
   
   const handleSearchInputChanges = (e) => {
     setSearchValue(e.target.value);
+    // console.log(e.target.value);
+    props.search(e.target.value);
   }
 
-  const resetInputField = () => {
-    setSearchValue("")
-  }
-
-  const callSearchFunction = (e) => {
-    e.preventDefault();
-    props.search(searchValue);
-    resetInputField();
-  }
+  // const callSearchFunction = (e) => {
+  //   e.preventDefault();
+  //   props.search(searchValue);
+  //   resetInputField();
+  // }
 
   return (
       <form className="search">
@@ -23,8 +21,8 @@ const Search = (props) => {
           value={searchValue}
           onChange={handleSearchInputChanges}
           type="text"
+          placeholder="Search Movie"
         />
-        <button onClick={callSearchFunction} type="submit">SEARCH</button>
       </form>
     );
 }
